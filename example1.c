@@ -39,7 +39,6 @@ void add_edge(GPH *graf, int src, int dest)
     graf->adj_list[src] = newnode;
 
     newnode = create_node(src);
-
     newnode->next = graf->adj_list[dest];
     graf->adj_list[dest] = newnode;
 }
@@ -48,7 +47,7 @@ GPH *create_graf(int v)
 {
     int i;
     GPH *graf = malloc(sizeof(GPH));
-    if (g == NULL)
+    if (graf == NULL)
     {
         printf("nu exita graf");
         exit(1);
@@ -121,36 +120,35 @@ void wipe(GPH *g, int nrv)
         g->visited[i] = 0;
     }
 }
-void canbe(GPH *g, int nrv, STK *s1, STK *s2)
+void canbe(GPH *graf, int nrv)
 {
-    int *canbe = calloc(nrv, sizeof(int));
-    if (canbe == NULL)
-    {
-        printf("Eroare la alocarea memoriei pentru vectorul canbe.\n");
-        exit(1);
-    }
-
-    wipe(g, nrv);
-
     for (int i = 0; i < nrv; i++)
     {
-        wipe(g, nrv);
-        DFS(g, s2, i);
-
-        int ans = 1;
-
-        for (int k = 0; k < nrv && ans; k++)
+        for (int j = 0; j < nrv; j++)
         {
-            if ((s1->array[k] != s2->array[k]))
+            if (i != j)
             {
-                ans = 0;
+                STK *stack1 = create_stack(2 * nrv);
+                STK *stack2 = create_stack(2 * nrv);
+                DFS(graf, stack1, i);
+                wipe(graf, nrv);
+                DFS(graf, stack2, j);
+                if (graf->visited[i] && graf->visited[j])
+                    printf("1 ");
+                else
+                    printf("0 ");
+                free(stack1->array);
+                free(stack1);
+                free(stack2->array);
+                free(stack2);
+            }
+            else
+            {
+                printf("0 ");
             }
         }
-        if (ans)
-            canbe[i] = 1;
+        printf("\n");
     }
-
-    free(canbe);
 }
 
 int main()
@@ -159,7 +157,7 @@ int main()
     int edg_nr;
     int src, dest;
     int i;
-    int ans = 1;
+    int vertex1, vertex2;
 
     printf("cate noduri are graful?");
     scanf("%d", &nrv);
@@ -167,11 +165,12 @@ int main()
     printf("cate muchii are graful");
     scanf("%d", &edg_nr);
 
-    GPH *g = create_g(nrv);
-    STK *s1 = create_s(2 * nrv);
-    STK *s2 = create_s(2 * nrv);
+    GPH *graf = create_graf(nrv);
 
-    insert_edges(g, edg_nr, nrv);
+    insert_edges(graf, edg_nr, nrv);
 
-    canbe(g, nrv, s1, s2);
+    // printf("care vreti sa fie nodurile intre care vreti sa verificati daca exista drum sau nu?\n");
+    // scanf("%d%d", &vertex1, &vertex2);
+
+    canbe(graf, nrv);
 }
