@@ -102,7 +102,7 @@ void DFS(GPH *graf, STK *stack, int vertices_number)
 void insert_edges(GPH *g, int edg_nr, int nrv)
 {
     int src, dest, i;
-    printf("adauga %d muchii(de la 1 la %d)\n", edg_nr, nrv);
+    printf("adauga %d muchii(de la 0 la %d)\n", edg_nr, nrv - 1);
     for (i = 0; i < edg_nr; i++)
     {
         scanf("%d%d", &src, &dest);
@@ -173,4 +173,5 @@ int main()
     // scanf("%d%d", &vertex1, &vertex2);
 
     canbe(graf, nrv);
+    printf("daca in ,,matricea de adiacenta'' afisata intre nodurile dorite avem 1 inseamna ca exista drum si asa am aratat daca exista drum intre cele doua restaurante dorite");
 }
