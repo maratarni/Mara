@@ -102,7 +102,7 @@ void DFS(GPH *graf, STK *stack, int vertices_number)
 void insert_edges(GPH *g, int edg_nr, int nrv)
 {
     int src, dest, i;
-    printf("adauga %d muchii(de la 0 la %d)\n", edg_nr, nrv - 1);
+    printf("adauga %d muchii(de la 1 la %d)\n", edg_nr, nrv);
     for (i = 0; i < edg_nr; i++)
     {
         scanf("%d%d", &src, &dest);
@@ -120,7 +120,7 @@ void wipe(GPH *g, int nrv)
         g->visited[i] = 0;
     }
 }
-void canbe(GPH *graf, int nrv)
+void canbe(GPH *graf, int nrv, int matr_drum[][100])
 {
     for (int i = 0; i < nrv; i++)
     {
@@ -134,18 +134,21 @@ void canbe(GPH *graf, int nrv)
                 wipe(graf, nrv);
                 DFS(graf, stack2, j);
                 if (graf->visited[i] && graf->visited[j])
-                    printf("1 ");
+                    matr_drum[i][j] = 1;
                 else
-                    printf("0 ");
+                    matr_drum[i][j] = 0;
                 free(stack1->array);
                 free(stack1);
                 free(stack2->array);
                 free(stack2);
             }
-            else
-            {
-                printf("0 ");
-            }
+        }
+    }
+    for (int i = 0; i < nrv; i++)
+    {
+        for (int j = 0; j < nrv; j++)
+        {
+            printf("%d ", matr_drum[i][j]);
         }
         printf("\n");
     }
@@ -156,8 +159,9 @@ int main()
     int nrv;
     int edg_nr;
     int src, dest;
-    int i;
+    int i, j;
     int vertex1, vertex2;
+    int matr_drum[100][100];
 
     printf("cate noduri are graful?");
     scanf("%d", &nrv);
@@ -169,9 +173,20 @@ int main()
 
     insert_edges(graf, edg_nr, nrv);
 
-    // printf("care vreti sa fie nodurile intre care vreti sa verificati daca exista drum sau nu?\n");
-    // scanf("%d%d", &vertex1, &vertex2);
+    printf("care vreti sa fie primul restaurant? tastati 1 pentru restaurantul 1 s.a.m.d..\n");
+    scanf("%d", &vertex1);
+    printf("care vreti sa fie al doilea restaurant? tastati 1 pentru restaurantul 1 s.a.m.d..\n");
+    scanf("%d", &vertex1);
 
-    canbe(graf, nrv);
-    printf("daca in ,,matricea de adiacenta'' afisata intre nodurile dorite avem 1 inseamna ca exista drum si asa am aratat daca exista drum intre cele doua restaurante dorite");
+    canbe(graf, nrv, matr_drum);
+
+    if (matr_drum[vertex1][vertex2] == 1 && matr_drum[vertex2][vertex1] == 1)
+    {
+        printf("exista drum intre cele doua restaurante");
+    }
+    else
+    {
+        printf("nu exista drum intre cele doua restaurante");
+    }
+    return 0;
 }
