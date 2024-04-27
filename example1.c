@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-
+// o sa indexez totul de la 0
 typedef struct Node
 {
     int data;
@@ -27,8 +27,10 @@ typedef struct stack
 NODE *create_node(int v)
 {
     NODE *newnode = malloc(sizeof(NODE)); // new_node
+
     newnode->data = v;
     newnode->next = NULL;
+
     return newnode;
 }
 
@@ -47,6 +49,7 @@ GPH *create_graf(int v)
 {
     int i;
     GPH *graf = malloc(sizeof(GPH));
+
     if (graf == NULL)
     {
         printf("nu exita graf");
@@ -86,11 +89,13 @@ void DFS(GPH *graf, STK *stack, int vertices_number)
     NODE *aux = adj_list;
 
     graf->visited[vertices_number] = 1;
+
     push(vertices_number, stack);
 
     while (aux != NULL)
     {
         int connected_vertex = aux->data;
+
         if (graf->visited[connected_vertex] == 0)
         {
             DFS(graf, stack, connected_vertex);
@@ -102,13 +107,12 @@ void DFS(GPH *graf, STK *stack, int vertices_number)
 void insert_edges(GPH *g, int edg_nr, int nrv)
 {
     int src, dest, i;
-    printf("adauga %d muchii(de la 1 la %d)\n", edg_nr, nrv);
+
+    printf("adauga %d muchii(de la 0 la %d)\n", edg_nr, nrv - 1);
+
     for (i = 0; i < edg_nr; i++)
     {
         scanf("%d%d", &src, &dest);
-        // int adj[100][100] = {0};
-        // adj[src][dest] = 1;
-        // adj[dest][src] = 1;
         add_edge(g, src, dest);
     }
 }
@@ -143,14 +147,6 @@ void canbe(GPH *graf, int nrv, int matr_drum[][100])
                 free(stack2);
             }
         }
-    }
-    for (int i = 0; i < nrv; i++)
-    {
-        for (int j = 0; j < nrv; j++)
-        {
-            printf("%d ", matr_drum[i][j]);
-        }
-        printf("\n");
     }
 }
 
