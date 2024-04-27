@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-
+// totul indexat de la 0
 typedef struct Node
 {
     int data;
@@ -54,7 +54,7 @@ void add_edge(GPH *graph, int src, int dest)
 int *insedg(int nr_of_vertices, int nr_of_edges, GPH *graph)
 {
     int src, dest, i;
-    printf("adauga %d muchii (de la 1 la %d)\n", nr_of_edges, nr_of_vertices);
+    printf("adauga %d muchii (de la 0 la %d)\n", nr_of_edges, nr_of_vertices - 1);
     for (i = 0; i < nr_of_edges; i++)
     {
         scanf("%d%d", &src, &dest);
@@ -131,7 +131,7 @@ void DFS(GPH *graph, int vertex_nr)
     NODE *temp = adj_list;
 
     graph->visited[vertex_nr] = 1;
-    printf("%d->", vertex_nr);
+    printf("%d ", vertex_nr);
 
     while (temp != NULL)
     {
